@@ -1,4 +1,4 @@
-# 📦 Opeonimages Object Detection System with GUI
+# 📦 Openimages Object Detection System with GUI
 
 ## 📌 Project Objective
 
