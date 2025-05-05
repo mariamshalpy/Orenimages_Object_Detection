@@ -122,7 +122,7 @@ Used OpenCV functions: `cv2.resize`, `cv2.GaussianBlur`, `cv2.createCLAHE`, etc.
 
 | Input Image                | Output with Bounding Boxes   |
 | -------------------------- | ---------------------------- |
-| ![input](assets/input.jpg) | ![output](assets/output.jpg) |
+| ![input](assets/input.jpg) | ![output](assets/output.png) |
 
 > Make sure to place `input.jpg` and `output.jpg` inside an `assets/` folder.
 
@@ -150,7 +150,3 @@ Used OpenCV functions: `cv2.resize`, `cv2.GaussianBlur`, `cv2.createCLAHE`, etc.
 * [OpenCV Documentation](https://docs.opencv.org/)
 * [TensorFlow Documentation](https://www.tensorflow.org/)
 * [Scikit-learn Documentation](https://scikit-learn.org/)
-
----
-
-Would you like this as a downloadable `README.md` file or PDF?
