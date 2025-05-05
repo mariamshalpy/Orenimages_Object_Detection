@@ -124,7 +124,6 @@ Used OpenCV functions: `cv2.resize`, `cv2.GaussianBlur`, `cv2.createCLAHE`, etc.
 | -------------------------- | ---------------------------- |
 | ![input](assets/input.jpg) | ![output](assets/output.png) |
 
-> Make sure to place `input.jpg` and `output.jpg` inside an `assets/` folder.
 
 ---
 
