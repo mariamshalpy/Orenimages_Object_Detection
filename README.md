@@ -102,8 +102,8 @@ Used OpenCV functions: `cv2.resize`, `cv2.GaussianBlur`, `cv2.createCLAHE`, etc.
 
 | Model                | Accuracy   |
 | -------------------- | ---------- |
-| SVM (Traditional ML) | **71.00%** |
-| Custom CNN           | **73.65%** |
+| SVM (Traditional ML) | **72.94%** |
+| Custom CNN           | **74.59%** |
 | MobileNetV2          | **57.65%** |
 
 ---
