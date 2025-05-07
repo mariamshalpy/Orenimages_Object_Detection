@@ -58,7 +58,7 @@ class GUI:
         </style>
         """, unsafe_allow_html=True)
 
-    def process_image(self, img):
+    def predict(self, img):
         model_input, original_img, preprocessed_dict, segmented_img = test_cnn_on_image_inline(img)
         if model_input is None or original_img is None:
             st.error("Error processing the image. Please try again.")
@@ -145,7 +145,7 @@ class GUI:
                 st.image(image, use_container_width=True)
             
             # Process the image
-            output, class_name, preprocessed_dict, segmented_img = self.process_image(img)
+            output, class_name, preprocessed_dict, segmented_img = self.predict(img)
             
             # Display results
             if output is not None:
