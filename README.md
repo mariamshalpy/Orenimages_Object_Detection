@@ -29,8 +29,6 @@ To run the object detection system with GUI, follow these steps:
   - Save the annotated image if needed.
 
 
-Make sure to install these dependencies before running the application.redicted class.
-
 ---
 
 ## 📂 Dataset Information
