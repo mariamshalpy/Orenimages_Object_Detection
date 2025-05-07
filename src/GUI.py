@@ -3,6 +3,7 @@ from PIL import Image
 import numpy as np
 import cv2
 from Utils.utils import *
+import matplotlib.pyplot as plt
 
 class GUI:
     def __init__(self, cnn_model, inv_label_map):
