@@ -2,7 +2,7 @@ import streamlit as st
 from PIL import Image
 import numpy as np
 import cv2
-from utils import *
+from Utils.utils import *
 
 class GUI:
     def __init__(self, cnn_model, inv_label_map):

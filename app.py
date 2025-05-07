@@ -1,5 +1,5 @@
-from GUI import GUI
-from utils import Get_Model_cnn
+from src.GUI import GUI
+from Utils.utils import Get_Model_cnn
 
 cnn_model_path = "custom_cnn_model.h5"
 label_map = {'apple': 0, 'banana': 1, 'bicycle': 2, 'car': 3, 'chair': 4, 'dog': 5, 'person': 6}

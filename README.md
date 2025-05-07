@@ -7,7 +7,41 @@ The goal of this project is to **design and implement a complete object detectio
 * Upload a static image.
 * Detect one or more objects relevant to a specific domain.
 * Draw bounding boxes around each detected object.
-* Label each object with its predicted class.
+### How to Run the Application
+
+To run the object detection system with GUI, follow these steps:
+
+1. **Clone the Repository**:
+  ```bash
+  git clone https://github.com/mariamshalpy/Orenimages_Object_Detection.git
+  cd Orenimages_Object_Detection
+  ```
+
+2. **Run the Application**:
+  Execute the following command to start the GUI:
+  ```bash
+  python app.py
+  ```
+
+3. **Use the GUI**:
+  - Upload an image or drag and drop it into the application.
+  - View the detection results with bounding boxes and class labels.
+  - Save the annotated image if needed.
+
+### Requirements
+
+The `requirements.txt` file includes all necessary dependencies for the project. Below is an example of its content:
+
+```
+numpy
+opencv-python
+tensorflow
+scikit-learn
+matplotlib
+PyQt5
+```
+
+Make sure to install these dependencies before running the application.redicted class.
 
 ---
 
