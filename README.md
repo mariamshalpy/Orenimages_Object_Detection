@@ -28,18 +28,6 @@ To run the object detection system with GUI, follow these steps:
   - View the detection results with bounding boxes and class labels.
   - Save the annotated image if needed.
 
-### Requirements
-
-The `requirements.txt` file includes all necessary dependencies for the project. Below is an example of its content:
-
-```
-numpy
-opencv-python
-tensorflow
-scikit-learn
-matplotlib
-PyQt5
-```
 
 Make sure to install these dependencies before running the application.redicted class.
 
