@@ -3,9 +3,53 @@ from PIL import Image
 import numpy as np
 import cv2
 from Utils.utils import *
+import xml.etree.ElementTree as ET
 import matplotlib.pyplot as plt
+import os
+import tempfile
 
 class GUI:
+    def draw_bounding_boxes(self, img, objects):
+        for label, xmin, ymin, xmax, ymax in objects:
+            # Draw rectangle
+            cv2.rectangle(img, (xmin, ymin), (xmax, ymax), (0, 255, 0), 2)
+
+            # Adjust text position to avoid cutting
+            text_y = ymin + 20 if ymin < 20 else ymin - 10
+
+            # Optional: add a background rectangle for better visibility
+            (text_width, text_height), _ = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.6, 2)
+            cv2.rectangle(img, (xmin, text_y - text_height), (xmin + text_width, text_y), (0, 255, 0), -1)
+
+            # Put label text
+            cv2.putText(img, label, (xmin, text_y), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 0), 2)
+        return img
+    
+    def parse_pascal_voc(self, xml_path):
+        tree = ET.parse(xml_path)
+        root = tree.getroot()
+        objects = []
+        for obj in root.findall('object'):
+            label = obj.find('name').text
+            bbox = obj.find('bndbox')
+            xmin = int(bbox.find('xmin').text)
+            ymin = int(bbox.find('ymin').text)
+            xmax = int(bbox.find('xmax').text)
+            ymax = int(bbox.find('ymax').text)
+            objects.append((label, xmin, ymin, xmax, ymax))
+        return objects
+
+    def draw_image(self,img_path, xml_path):
+        image = cv2.imread(img_path)
+        if image is not None:
+            objects = self.parse_pascal_voc(xml_path)
+            boxed = self.draw_bounding_boxes(image.copy(), objects)
+            boxed = cv2.cvtColor(boxed, cv2.COLOR_BGR2RGB)
+            return boxed
+        else:
+            print("Error: Image not found or could not be read.")
+            return None
+
     def __init__(self, cnn_model, inv_label_map):
         self.setup_page_config()
         self.apply_custom_css()
@@ -59,7 +103,7 @@ class GUI:
         """, unsafe_allow_html=True)
 
     def predict(self, img):
-        model_input, original_img, preprocessed_dict, segmented_img = test_cnn_on_image_inline(img)
+        model_input, original_img, preprocessed_dict, segmented_img = process_image_for_prediction(img)
         if model_input is None or original_img is None:
             st.error("Error processing the image. Please try again.")
             return None
@@ -131,6 +175,25 @@ class GUI:
             image = Image.open(uploaded_file)
             # path = uploaded_file.name
             img = np.array(image)
+
+            with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
+                tmp_file.write(uploaded_file.read())
+                temp_image_path = tmp_file.name
+
+            filename = uploaded_file.name  # e.g., apple_00bb5720a7ba062e.jpg
+            parts = filename.split('_')
+
+            if len(parts) >= 2:
+                variable1 = parts[0]  # e.g., apple
+                variable2 = parts[1].split('.')[0]  # e.g., 00bb5720a7ba062e
+
+                # Construct dynamic xml path
+                xml_path = os.path.join(
+                    "/openimages",
+                    variable1,
+                    "pascal",
+                    f"{variable2}.xml"
+                )
         
             
             # Display original image
@@ -139,7 +202,8 @@ class GUI:
                 st.image(image, use_container_width=True)
             
             # Process the image
-            output, class_name, preprocessed_dict, segmented_img = self.predict(img)
+            output = self.draw_image(temp_image_path, xml_path)
+            class_name, preprocessed_dict, segmented_img = self.predict(img)
             
             # Display results
             if output is not None:
