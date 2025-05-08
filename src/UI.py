@@ -248,7 +248,7 @@ class GUI:
             st.markdown("</div>", unsafe_allow_html=True)
 
 
-cnn_model_path = "../models/custom_cnn_model.h5"
+cnn_model_path = "/content/Orenimages_Object_Detection/models/custom_cnn_model.h5"
 label_map = {'apple': 0, 'banana': 1, 'bicycle': 2, 'car': 3, 'chair': 4, 'dog': 5, 'person': 6}
 inv_label_map = {v: k for k, v in label_map.items()}
 
