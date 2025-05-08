@@ -190,9 +190,7 @@ class GUI:
             if len(parts) >= 2:
                 variable1 = parts[0]  # e.g., apple
                 variable2 = parts[1].split('.')[0]  # e.g., 00bb5720a7ba062e
-                base_dir = os.getcwd()
-                base_dir = os.path.abspath(os.path.join(base_dir, ".."))
-                # st.error(base_dir)
+                base_dir = '/content/Orenimages_Object_Detection/'
                 # Construct dynamic xml path
                 xml_path = os.path.join(
                     base_dir,
@@ -202,7 +200,6 @@ class GUI:
                     f"{variable2}.xml"
                 )
                 xml_path = os.path.normpath(xml_path)
-                
 
                 if not os.path.exists(xml_path):
                     st.error("XML file not found. Please check the uploaded image.")
