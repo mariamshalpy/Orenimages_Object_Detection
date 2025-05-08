@@ -2,6 +2,13 @@ import streamlit as st
 from PIL import Image
 import numpy as np
 import cv2
+import sys
+import os
+
+# Add the parent directory of Utils to the Python path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from Utils.utils import *
 from Utils.utils import *
 import xml.etree.ElementTree as ET
 import matplotlib.pyplot as plt
@@ -51,17 +58,13 @@ class GUI:
             print("Error: Image not found or could not be read.")
             return None
 
-    def __init__(self, cnn_model, inv_label_map):
+    def __init__(self, cnn_model_path, inv_label_map):
         self.setup_page_config()
         self.apply_custom_css()
         self.cnn_model = None
         self.inv_label_map = inv_label_map
+        self.cnn_model = Get_Model_cnn(cnn_model_path)
 
-        try:
-            self.cnn_model = cnn_model
-        except Exception as e:
-            st.warning("Model not found: {}".format(e))
-    
     def setup_page_config(self):
         st.set_page_config(
             page_title="Image Detection App",
@@ -188,6 +191,8 @@ class GUI:
                 variable1 = parts[0]  # e.g., apple
                 variable2 = parts[1].split('.')[0]  # e.g., 00bb5720a7ba062e
                 base_dir = os.getcwd()
+                base_dir = os.path.abspath(os.path.join(base_dir, ".."))
+                # st.error(base_dir)
                 # Construct dynamic xml path
                 xml_path = os.path.join(
                     base_dir,
@@ -242,3 +247,14 @@ class GUI:
             
             st.markdown("</div>", unsafe_allow_html=True)
 
+
+cnn_model_path = "../models/custom_cnn_model.h5"
+label_map = {'apple': 0, 'banana': 1, 'bicycle': 2, 'car': 3, 'chair': 4, 'dog': 5, 'person': 6}
+inv_label_map = {v: k for k, v in label_map.items()}
+
+# Load the models
+
+app = GUI(cnn_model_path, inv_label_map=inv_label_map)
+
+if __name__ == "__main__":
+    app.run()
