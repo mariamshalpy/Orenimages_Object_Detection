@@ -199,8 +199,10 @@ class GUI:
                     "pascal",
                     f"{variable2}.xml"
                 )
+                print("XML Path:", xml_path)
                 xml_path = os.path.normpath(xml_path)
-
+                print("Normalized XML Path:", xml_path)
+                
                 if not os.path.exists(xml_path):
                     st.error("XML file not found. Please check the uploaded image.")
                     return
