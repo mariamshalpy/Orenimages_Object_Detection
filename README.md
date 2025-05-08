@@ -125,7 +125,13 @@ Used OpenCV functions: `cv2.resize`, `cv2.GaussianBlur`, `cv2.createCLAHE`, etc.
 | SVM (Traditional ML) | **72.94%** |
 | Custom CNN           | **74.59%** |
 | MobileNetV2          | **57.65%** |
-
+|                      |            |     
+|                      |            |
+rint(f"SVC Accuracy: 70.58 % ")
+print(f"Random Forest Accuracy: 57.48 % ")
+print(f"Custom CNN Accuracy: 85.88 %")
+print(f"MobileNetV2 Accuracy: 26.05 %")
+print(f"EfficientNetB0 Accuracy: 90.67 %")
 ---
 
 ## 🖼 GUI Features
