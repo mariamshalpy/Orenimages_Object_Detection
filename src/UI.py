@@ -39,12 +39,13 @@ class GUI:
             objects.append((label, xmin, ymin, xmax, ymax))
         return objects
 
-    def draw_image(self,img_path, xml_path):
-        image = cv2.imread(img_path)
-        if image is not None:
+    def draw_image(self,img, xml_path):
+        if img is not None:
             objects = self.parse_pascal_voc(xml_path)
-            boxed = self.draw_bounding_boxes(image.copy(), objects)
-            boxed = cv2.cvtColor(boxed, cv2.COLOR_BGR2RGB)
+            if not objects:
+                print("No objects found in the XML file.")
+                return None
+            boxed = self.draw_bounding_boxes(img.copy(), objects)
             return boxed
         else:
             print("Error: Image not found or could not be read.")
@@ -186,15 +187,22 @@ class GUI:
             if len(parts) >= 2:
                 variable1 = parts[0]  # e.g., apple
                 variable2 = parts[1].split('.')[0]  # e.g., 00bb5720a7ba062e
-
+                base_dir = os.getcwd()
                 # Construct dynamic xml path
                 xml_path = os.path.join(
-                    "/openimages",
+                    base_dir,
+                    "openimages",
                     variable1,
                     "pascal",
                     f"{variable2}.xml"
                 )
-        
+                xml_path = os.path.normpath(xml_path)
+                
+
+                if not os.path.exists(xml_path):
+                    st.error("XML file not found. Please check the uploaded image.")
+                    return
+
             
             # Display original image
             with col1:
@@ -202,29 +210,33 @@ class GUI:
                 st.image(image, use_container_width=True)
             
             # Process the image
-            output = self.draw_image(temp_image_path, xml_path)
-            class_name, preprocessed_dict, segmented_img = self.predict(img)
+            output = self.draw_image(img, xml_path)
+            img, class_name, preprocessed_dict, segmented_img = self.predict(img)
             
             # Display results
             if output is not None:
                 with col2:
                     st.subheader("Detection Result")
                     st.image(output, use_container_width=True)
-                    fig, axes = plt.subplots(1, 3, figsize=(5, 5))
+                    fig, axes = plt.subplots(1, 4, figsize=(5, 5))
                     axes[0].imshow(preprocessed_dict["resized"])
                     axes[0].set_title("Resized")
                     axes[0].axis("off")
                     axes[1].imshow(segmented_img)
                     axes[1].set_title("Segmented")
                     axes[1].axis("off")
-                    axes[2].imshow(preprocessed_dict["contrast"])
-                    axes[2].set_title("Contrast")
+                    axes[2].imshow(preprocessed_dict["gray"])
+                    axes[2].set_title("Gray")
                     axes[2].axis("off")
+                    axes[3].imshow(preprocessed_dict["binary"])
+                    axes[3].set_title("Binary")
+                    axes[3].axis("off")
+                    
                     st.pyplot(fig)
                 
                 # Display prediction
                 st.success(f"✅ Detection complete!")
-                st.metric("Predicted Class", class_name)
+                st.metric("Predicted Class", variable1)
             else:
                 st.error("No fruit detected in the image. Please try with another image.")
             
